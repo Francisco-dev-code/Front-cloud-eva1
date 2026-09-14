@@ -3,14 +3,16 @@ import { Observable } from 'rxjs';
 
 /**
  * Servicio genérico con las operaciones CRUD estándar contra un recurso REST.
- * Cada servicio de entidad extiende esta clase indicando su "resource" (ruta).
  *
- * Se asume que el backend expone endpoints REST convencionales:
- *   GET    {baseUrl}/{resource}          -> listar todo (o paginado con query params)
- *   GET    {baseUrl}/{resource}/{id}     -> obtener por id
- *   POST   {baseUrl}/{resource}          -> crear
- *   PUT    {baseUrl}/{resource}/{id}     -> actualizar
- *   DELETE {baseUrl}/{resource}/{id}     -> eliminar
+ * Cada servicio de entidad extiende esta clase indicando su recurso.
+ *
+ * Las URL generadas quedan así:
+ *
+ * GET    {baseUrl}/api/{resource}
+ * GET    {baseUrl}/api/{resource}/{id}
+ * POST   {baseUrl}/api/{resource}
+ * PUT    {baseUrl}/api/{resource}/{id}
+ * DELETE {baseUrl}/api/{resource}/{id}
  */
 export abstract class ApiBaseService<T> {
   protected abstract resource: string;
@@ -21,10 +23,14 @@ export abstract class ApiBaseService<T> {
   ) {}
 
   private get url(): string {
-    return `${this.baseUrl}/${this.resource}`;
+    const normalizedBaseUrl = this.baseUrl.replace(/\/+$/, '');
+
+    return `${normalizedBaseUrl}/api/${this.resource}`;
   }
 
-  getAll(params?: HttpParams | Record<string, string | number>): Observable<T[]> {
+  getAll(
+    params?: HttpParams | Record<string, string | number>
+  ): Observable<T[]> {
     return this.http.get<T[]>(this.url, { params });
   }
 

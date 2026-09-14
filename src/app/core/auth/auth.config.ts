@@ -4,24 +4,24 @@ import {
   IPublicClientApplication,
   PublicClientApplication
 } from '@azure/msal-browser';
+
 import {
   MsalGuardConfiguration,
   MsalInterceptorConfiguration
 } from '@azure/msal-angular';
+
 import { environment } from '../../../environments/environment';
 
 export function msalInstanceFactory(): IPublicClientApplication {
   return new PublicClientApplication({
     auth: {
-      clientId: environment.entra.clientId || 'PENDING_CLIENT_ID',
-      authority: environment.entra.tenantId
-        ? `https://login.microsoftonline.com/${environment.entra.tenantId}`
-        : 'https://login.microsoftonline.com/common',
+      clientId: environment.entra.clientId,
+      authority: `https://login.microsoftonline.com/${environment.entra.tenantId}/v2.0`,
       redirectUri: environment.entra.redirectUri,
       postLogoutRedirectUri: environment.entra.redirectUri
     },
     cache: {
-      cacheLocation: BrowserCacheLocation.LocalStorage
+      cacheLocation: BrowserCacheLocation.SessionStorage
     }
   });
 }
@@ -30,9 +30,11 @@ export function msalGuardConfigFactory(): MsalGuardConfiguration {
   return {
     interactionType: InteractionType.Redirect,
     authRequest: {
-      scopes: environment.entra.apiScope
-        ? [environment.entra.apiScope]
-        : []
+      scopes: [
+        'openid',
+        'profile',
+        environment.entra.apiScope
+      ]
     }
   };
 }
@@ -40,11 +42,10 @@ export function msalGuardConfigFactory(): MsalGuardConfiguration {
 export function msalInterceptorConfigFactory(): MsalInterceptorConfiguration {
   const protectedResourceMap = new Map<string, string[]>();
 
-  if (environment.entra.enabled && environment.entra.apiScope) {
-    protectedResourceMap.set(`${environment.apiUrl}/*`, [
-      environment.entra.apiScope
-    ]);
-  }
+  protectedResourceMap.set(
+  'https://0merzvv7vb.execute-api.us-east-1.amazonaws.com/api/*',
+  [environment.entra.apiScope]
+);
 
   return {
     interactionType: InteractionType.Redirect,
