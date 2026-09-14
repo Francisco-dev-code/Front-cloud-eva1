@@ -7,6 +7,7 @@ import { provideRouter } from '@angular/router';
 import {
   provideHttpClient,
   withFetch,
+  withInterceptors,
   withInterceptorsFromDi
 } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -23,6 +24,7 @@ import {
 } from '@azure/msal-angular';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { IPublicClientApplication } from '@azure/msal-browser';
+import { apiErrorInterceptor } from './core/interceptors/api-error.interceptor';
 
 import { routes } from './app.routes';
 import {
@@ -39,7 +41,8 @@ export const appConfig: ApplicationConfig = {
 
     provideHttpClient(
       withFetch(),
-      withInterceptorsFromDi()
+      withInterceptorsFromDi(),
+      withInterceptors([apiErrorInterceptor])
     ),
 
     provideAnimationsAsync(),
