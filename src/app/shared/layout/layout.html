@@ -1,0 +1,67 @@
+<mat-sidenav-container class="contenedor">
+  <mat-sidenav
+    [mode]="modoSidenav()"
+    [opened]="abiertoPorDefecto()"
+    class="sidenav"
+  >
+    <div class="marca">
+      <mat-icon>local_library</mat-icon>
+      <span>Biblioteca</span>
+    </div>
+
+    <mat-nav-list>
+      @for (item of menu; track item.ruta) {
+        <a
+          mat-list-item
+          [routerLink]="item.ruta"
+          routerLinkActive="activo"
+        >
+          <mat-icon matListItemIcon>{{ item.icono }}</mat-icon>
+          <span matListItemTitle>{{ item.etiqueta }}</span>
+        </a>
+      }
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar color="primary" class="toolbar">
+      <span>Sistema de Gestión de Biblioteca</span>
+
+      <span class="separador-toolbar"></span>
+
+      @if (auth.isEnabled) {
+        @if (auth.isAuthenticated) {
+          <span class="usuario-autenticado">
+            {{ auth.account?.username }}
+          </span>
+
+          <button
+            mat-button
+            type="button"
+            (click)="auth.logout()"
+          >
+            <mat-icon>logout</mat-icon>
+            Cerrar sesión
+          </button>
+        } @else {
+          <button
+            mat-button
+            type="button"
+            (click)="auth.login()"
+          >
+            <mat-icon>login</mat-icon>
+            Iniciar sesión
+          </button>
+        }
+      } @else {
+        <span class="modo-demo">
+          Modo demo
+        </span>
+      }
+    </mat-toolbar>
+
+    <main class="contenido">
+      <router-outlet />
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

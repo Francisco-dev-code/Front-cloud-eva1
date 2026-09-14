@@ -1,0 +1,34 @@
+.subtitulo {
+  color: rgba(0, 0, 0, 0.6);
+  margin-bottom: 1.5rem;
+}
+.grilla {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+.enlace-tarjeta {
+  text-decoration: none;
+  color: inherit;
+}
+.tarjeta {
+  text-align: center;
+  transition: box-shadow 0.2s ease;
+}
+.tarjeta:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+.icono {
+  font-size: 2.5rem;
+  height: 2.5rem;
+  width: 2.5rem;
+  color: #3f51b5;
+}
+.valor {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-top: 0.25rem;
+}
+.etiqueta {
+  color: rgba(0, 0, 0, 0.6);
+}

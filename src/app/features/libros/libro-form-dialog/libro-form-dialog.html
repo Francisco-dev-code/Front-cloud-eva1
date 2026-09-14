@@ -1,0 +1,70 @@
+<h2 mat-dialog-title>{{ esEdicion ? 'Editar libro' : 'Nuevo libro' }}</h2>
+
+<form [formGroup]="formulario" (ngSubmit)="guardar()">
+  <mat-dialog-content class="campos">
+    <mat-form-field appearance="outline" class="campo-completo">
+      <mat-label>Título</mat-label>
+      <input matInput formControlName="titulo" maxlength="150" />
+      @if (formulario.get('titulo')?.hasError('required')) {
+        <mat-error>El título es obligatorio</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="campo-completo">
+      <mat-label>ISBN</mat-label>
+      <input matInput formControlName="isbn" />
+      @if (formulario.get('isbn')?.hasError('required')) {
+        <mat-error>El ISBN es obligatorio</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="campo-completo">
+      <mat-label>Autor</mat-label>
+      <mat-select formControlName="autorId">
+        @for (autor of autores(); track autor.id) {
+          <mat-option [value]="autor.id">{{ autor.nombre }} {{ autor.apellido }}</mat-option>
+        }
+      </mat-select>
+      @if (formulario.get('autorId')?.hasError('required')) {
+        <mat-error>Selecciona un autor</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="campo-completo">
+      <mat-label>Categoría</mat-label>
+      <mat-select formControlName="categoriaId">
+        @for (categoria of categorias(); track categoria.id) {
+          <mat-option [value]="categoria.id">{{ categoria.nombre }}</mat-option>
+        }
+      </mat-select>
+      @if (formulario.get('categoriaId')?.hasError('required')) {
+        <mat-error>Selecciona una categoría</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="campo-completo">
+      <mat-label>Editorial</mat-label>
+      <input matInput formControlName="editorial" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="campo-mitad">
+      <mat-label>Año de publicación</mat-label>
+      <input matInput type="number" formControlName="anioPublicacion" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="campo-mitad">
+      <mat-label>Cantidad total</mat-label>
+      <input matInput type="number" min="1" formControlName="cantidadTotal" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="campo-mitad">
+      <mat-label>Ejemplares disponibles</mat-label>
+      <input matInput type="number" min="0" formControlName="cantidadDisponible" />
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" [mat-dialog-close]="null">Cancelar</button>
+    <button mat-flat-button color="primary" type="submit">Guardar</button>
+  </mat-dialog-actions>
+</form>

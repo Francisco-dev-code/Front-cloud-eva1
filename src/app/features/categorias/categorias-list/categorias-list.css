@@ -1,0 +1,14 @@
+.cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.tabla {
+  width: 100%;
+}
+.vacio {
+  text-align: center;
+  color: rgba(0, 0, 0, 0.6);
+  padding: 2rem 0;
+}

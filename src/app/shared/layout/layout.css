@@ -1,0 +1,79 @@
+.contenedor {
+  height: 100vh;
+}
+
+.sidenav {
+  width: 240px;
+}
+
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.activo {
+  background-color: rgba(63, 81, 181, 0.1);
+  color: #3f51b5;
+}
+
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.separador-toolbar {
+  flex: 1;
+}
+
+.usuario-autenticado,
+.modo-demo {
+  margin-right: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.usuario-autenticado {
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.modo-demo {
+  opacity: 0.85;
+}
+
+.toolbar button {
+  color: inherit;
+}
+
+.contenido {
+  padding: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@media (max-width: 600px) {
+  .sidenav {
+    width: 220px;
+  }
+
+  .toolbar {
+    font-size: 0.9rem;
+  }
+
+  .usuario-autenticado {
+    display: none;
+  }
+
+  .contenido {
+    padding: 1rem;
+  }
+}

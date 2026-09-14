@@ -1,0 +1,62 @@
+<h2 mat-dialog-title>{{ esEdicion ? 'Editar préstamo' : 'Nuevo préstamo' }}</h2>
+
+<form [formGroup]="formulario" (ngSubmit)="guardar()">
+  <mat-dialog-content class="campos">
+    <mat-form-field appearance="outline" class="campo-completo">
+      <mat-label>Libro</mat-label>
+      <mat-select formControlName="libroId">
+        @for (libro of libros(); track libro.id) {
+          <mat-option [value]="libro.id">{{ libro.titulo }}</mat-option>
+        }
+      </mat-select>
+      @if (formulario.get('libroId')?.hasError('required')) {
+        <mat-error>Selecciona un libro</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="campo-completo">
+      <mat-label>Usuario</mat-label>
+      <mat-select formControlName="usuarioId">
+        @for (usuario of usuarios(); track usuario.id) {
+          <mat-option [value]="usuario.id">{{ usuario.nombre }} {{ usuario.apellido }}</mat-option>
+        }
+      </mat-select>
+      @if (formulario.get('usuarioId')?.hasError('required')) {
+        <mat-error>Selecciona un usuario</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="campo-mitad">
+      <mat-label>Fecha de préstamo</mat-label>
+      <input matInput [matDatepicker]="pickerInicio" formControlName="fechaPrestamo" />
+      <mat-datepicker-toggle matIconSuffix [for]="pickerInicio"></mat-datepicker-toggle>
+      <mat-datepicker #pickerInicio></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="campo-mitad">
+      <mat-label>Devolución esperada</mat-label>
+      <input matInput [matDatepicker]="pickerFin" formControlName="fechaDevolucionEsperada" />
+      <mat-datepicker-toggle matIconSuffix [for]="pickerFin"></mat-datepicker-toggle>
+      <mat-datepicker #pickerFin></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="campo-completo">
+      <mat-label>Estado</mat-label>
+      <mat-select formControlName="estado">
+        @for (estado of estados; track estado) {
+          <mat-option [value]="estado">{{ estado }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="campo-completo">
+      <mat-label>Observaciones</mat-label>
+      <textarea matInput formControlName="observaciones" rows="2"></textarea>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" [mat-dialog-close]="null">Cancelar</button>
+    <button mat-flat-button color="primary" type="submit">Guardar</button>
+  </mat-dialog-actions>
+</form>

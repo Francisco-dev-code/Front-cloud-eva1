@@ -1,0 +1,16 @@
+<h1>Panel general</h1>
+<p class="subtitulo">Resumen del estado actual de la biblioteca.</p>
+
+<div class="grilla">
+  @for (tarjeta of tarjetas(); track tarjeta.etiqueta) {
+    <a [routerLink]="tarjeta.ruta" class="enlace-tarjeta">
+      <mat-card class="tarjeta">
+        <mat-card-content>
+          <mat-icon class="icono">{{ tarjeta.icono }}</mat-icon>
+          <div class="valor">{{ tarjeta.valor }}</div>
+          <div class="etiqueta">{{ tarjeta.etiqueta }}</div>
+        </mat-card-content>
+      </mat-card>
+    </a>
+  }
+</div>

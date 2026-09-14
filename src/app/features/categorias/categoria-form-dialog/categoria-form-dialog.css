@@ -1,0 +1,9 @@
+.campos {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 320px;
+}
+.campo-completo {
+  width: 100%;
+}
