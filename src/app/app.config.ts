@@ -24,6 +24,7 @@ import {
 } from '@azure/msal-angular';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { IPublicClientApplication } from '@azure/msal-browser';
+import { authRequiredInterceptor } from './core/interceptors/auth-required.interceptor';
 import { apiErrorInterceptor } from './core/interceptors/api-error.interceptor';
 
 import { routes } from './app.routes';
@@ -39,8 +40,10 @@ export const appConfig: ApplicationConfig = {
     provideZonelessChangeDetection(),
     provideRouter(routes),
 
+    // Orden: 1) exige sesión para /api/*, 2) MSAL agrega el Bearer, 3) log de errores.
     provideHttpClient(
       withFetch(),
+      withInterceptors([authRequiredInterceptor]),
       withInterceptorsFromDi(),
       withInterceptors([apiErrorInterceptor])
     ),

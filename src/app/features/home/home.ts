@@ -2,8 +2,12 @@ import { Component, OnInit, inject, signal, ChangeDetectionStrategy, DestroyRef 
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
-import { forkJoin } from 'rxjs';
+import { MsalBroadcastService } from '@azure/msal-angular';
+import { InteractionStatus } from '@azure/msal-browser';
+import { filter, forkJoin } from 'rxjs';
+import { AuthService } from '../../core/auth/auth.service';
 import { LibroService } from '../../core/services/libro.service';
 import { AutorService } from '../../core/services/autor.service';
 import { CategoriaService } from '../../core/services/categoria.service';
@@ -20,13 +24,15 @@ interface Tarjeta {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [MatCardModule, MatIconModule, RouterLink],
+  imports: [MatCardModule, MatIconModule, MatButtonModule, RouterLink],
   templateUrl: './home.html',
   styleUrl: './home.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
+  protected readonly auth = inject(AuthService);
+  private readonly msalBroadcast = inject(MsalBroadcastService);
   private readonly libroService = inject(LibroService);
   private readonly autorService = inject(AutorService);
   private readonly categoriaService = inject(CategoriaService);
@@ -41,7 +47,31 @@ export class HomeComponent implements OnInit {
     { etiqueta: 'Préstamos activos', valor: 0, icono: 'assignment_return', ruta: '/prestamos' }
   ]);
 
+  protected readonly autenticado = signal(false);
+  private cargado = false;
+
   ngOnInit(): void {
+    // Se reevalúa cuando MSAL termina cualquier interacción (p. ej. al volver del login).
+    this.msalBroadcast.inProgress$
+      .pipe(
+        filter((estado) => estado === InteractionStatus.None),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(() => this.evaluarSesion());
+  }
+
+  private evaluarSesion(): void {
+    const activa = !this.auth.isEnabled || this.auth.isAuthenticated;
+    this.autenticado.set(activa);
+
+    // Visitante sin sesión: no se hace ninguna solicitud a la API.
+    if (activa && !this.cargado) {
+      this.cargado = true;
+      this.cargarResumen();
+    }
+  }
+
+  private cargarResumen(): void {
     forkJoin({
       libros: this.libroService.getAll(),
       autores: this.autorService.getAll(),

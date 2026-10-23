@@ -1,0 +1,27 @@
+<form class="formulario" [formGroup]="formulario" (ngSubmit)="publicar()">
+  <mat-form-field appearance="outline">
+    <mat-label>Exchange</mat-label>
+    <mat-select formControlName="exchange">
+      @for (e of exchanges(); track e.name) {
+        <mat-option [value]="e.name">{{ e.name }} ({{ e.type }})</mat-option>
+      }
+    </mat-select>
+    <mat-error>Selecciona un exchange</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Routing key</mat-label>
+    <input matInput formControlName="routingKey" placeholder="pedido.creado" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="ancho">
+    <mat-label>Mensaje (texto o JSON)</mat-label>
+    <textarea matInput rows="4" formControlName="payload" placeholder='{"tipo":"TICKET","mensaje":"Ticket #1"}'></textarea>
+    <mat-error>El mensaje es obligatorio</mat-error>
+  </mat-form-field>
+
+  <button mat-flat-button color="primary" type="submit" [disabled]="enviando()">
+    <mat-icon>send</mat-icon> Publicar
+  </button>
+</form>
+<p class="nota">Revisa luego la vista <strong>Notificaciones</strong> para ver el resultado del consumidor o los mensajes enviados a la DLQ.</p>

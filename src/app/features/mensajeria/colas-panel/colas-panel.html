@@ -1,0 +1,73 @@
+<form class="formulario" [formGroup]="formulario" (ngSubmit)="crear()">
+  <mat-form-field appearance="outline">
+    <mat-label>Nombre de la cola</mat-label>
+    <input matInput formControlName="name" placeholder="notificaciones.queue" />
+    @if (formulario.controls.name.hasError('required')) {
+      <mat-error>El nombre es obligatorio</mat-error>
+    } @else if (formulario.controls.name.hasError('pattern')) {
+      <mat-error>Solo letras, números, punto, guion, guion bajo y dos puntos</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Dead Letter Exchange (DLX)</mat-label>
+    <input matInput formControlName="deadLetterExchange" placeholder="dlx.exchange" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Routing key a la DLQ</mat-label>
+    <input matInput formControlName="deadLetterRoutingKey" placeholder="notificaciones.dlq" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>TTL de mensajes (ms)</mat-label>
+    <input matInput type="number" min="1" formControlName="messageTtl" />
+    @if (formulario.controls.messageTtl.hasError('min')) {
+      <mat-error>Debe ser mayor a 0</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-checkbox formControlName="durable">Durable</mat-checkbox>
+  <button mat-flat-button color="primary" type="submit"><mat-icon>add</mat-icon> Crear cola</button>
+</form>
+<p class="nota">Para una DLQ: crea primero la cola de dead letters, un exchange DLX, enlázalos y luego indica el DLX aquí.</p>
+
+@if (cargando()) {
+  <mat-spinner diameter="36"></mat-spinner>
+} @else {
+  <table mat-table [dataSource]="datos()" class="tabla mat-elevation-z1">
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Nombre</th>
+      <td mat-cell *matCellDef="let item">{{ item.name }}</td>
+    </ng-container>
+    <ng-container matColumnDef="durable">
+      <th mat-header-cell *matHeaderCellDef>Durable</th>
+      <td mat-cell *matCellDef="let item">{{ item.durable ? 'Sí' : 'No' }}</td>
+    </ng-container>
+    <ng-container matColumnDef="dlx">
+      <th mat-header-cell *matHeaderCellDef>DLX</th>
+      <td mat-cell *matCellDef="let item">{{ item.deadLetterExchange || '—' }}</td>
+    </ng-container>
+    <ng-container matColumnDef="messages">
+      <th mat-header-cell *matHeaderCellDef>Mensajes</th>
+      <td mat-cell *matCellDef="let item">{{ item.messages ?? '—' }}</td>
+    </ng-container>
+    <ng-container matColumnDef="consumers">
+      <th mat-header-cell *matHeaderCellDef>Consumidores</th>
+      <td mat-cell *matCellDef="let item">{{ item.consumers ?? '—' }}</td>
+    </ng-container>
+    <ng-container matColumnDef="acciones">
+      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+      <td mat-cell *matCellDef="let item">
+        <button mat-icon-button color="warn" (click)="eliminar(item)" aria-label="Eliminar cola">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+    <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
+  </table>
+  @if (datos().length === 0) {
+    <p class="vacio">No hay colas registradas.</p>
+  }
+}

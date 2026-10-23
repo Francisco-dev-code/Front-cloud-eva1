@@ -4,7 +4,8 @@ import {
   DestroyRef,
   inject
 } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
+import { AuthService } from './core/auth/auth.service';
 import { MsalService } from '@azure/msal-angular';
 import { filter } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -25,6 +26,8 @@ import {
 export class App {
   private readonly msal = inject(MsalService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly auth = inject(AuthService);
+  private readonly router = inject(Router);
 
   constructor() {
     this.procesarRedirect();
@@ -39,6 +42,12 @@ export class App {
         next: (resultado: AuthenticationResult | null) => {
           if (resultado?.account) {
             this.msal.instance.setActiveAccount(resultado.account);
+
+            // Tras registrarse/iniciar sesión, volver a donde estaba el usuario.
+            const destino = this.auth.consumirReturnUrl();
+            if (destino) {
+              void this.router.navigateByUrl(destino);
+            }
           }
         },
         error: (error: unknown) => {

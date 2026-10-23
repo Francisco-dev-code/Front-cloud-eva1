@@ -12,6 +12,8 @@ export interface Libro {
   autorId: number;
   categoriaId: number;
   // Campos opcionales que la API puede devolver ya "expandidos"
+  autorNombre?: string;      // lo entrega el backend (LibroDTO)
+  categoriaNombre?: string;  // lo entrega el backend (LibroDTO)
   autor?: Autor;
   categoria?: Categoria;
 }

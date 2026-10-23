@@ -15,11 +15,11 @@ export class PrestamoService extends ApiBaseService<Prestamo> {
 
   /** Registra la devolución de un préstamo (requiere endpoint: PATCH /prestamos/{id}/devolver) */
   devolver(id: number): Observable<Prestamo> {
-    return this.http.patch<Prestamo>(`${environment.apiUrl}/${this.resource}/${id}/devolver`, {});
+    return this.http.patch<Prestamo>(`${this.url}/${id}/devolver`, {});
   }
 
   /** Préstamos activos de un usuario (requiere endpoint: GET /prestamos/usuario/{usuarioId}) */
   porUsuario(usuarioId: number): Observable<Prestamo[]> {
-    return this.http.get<Prestamo[]>(`${environment.apiUrl}/${this.resource}/usuario/${usuarioId}`);
+    return this.http.get<Prestamo[]>(`${this.url}/usuario/${usuarioId}`);
   }
 }

@@ -1,0 +1,60 @@
+<form class="formulario" [formGroup]="formulario" (ngSubmit)="crear()">
+  <mat-form-field appearance="outline">
+    <mat-label>Exchange</mat-label>
+    <mat-select formControlName="exchange">
+      @for (e of exchanges(); track e.name) {
+        <mat-option [value]="e.name">{{ e.name }} ({{ e.type }})</mat-option>
+      }
+    </mat-select>
+    <mat-error>Selecciona un exchange</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Cola</mat-label>
+    <mat-select formControlName="queue">
+      @for (c of colas(); track c.name) {
+        <mat-option [value]="c.name">{{ c.name }}</mat-option>
+      }
+    </mat-select>
+    <mat-error>Selecciona una cola</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Routing key</mat-label>
+    <input matInput formControlName="routingKey" placeholder="pedido.creado" />
+  </mat-form-field>
+
+  <button mat-flat-button color="primary" type="submit"><mat-icon>link</mat-icon> Crear binding</button>
+</form>
+
+@if (cargando()) {
+  <mat-spinner diameter="36"></mat-spinner>
+} @else {
+  <table mat-table [dataSource]="datos()" class="tabla mat-elevation-z1">
+    <ng-container matColumnDef="exchange">
+      <th mat-header-cell *matHeaderCellDef>Exchange</th>
+      <td mat-cell *matCellDef="let item">{{ item.exchange }}</td>
+    </ng-container>
+    <ng-container matColumnDef="queue">
+      <th mat-header-cell *matHeaderCellDef>Cola</th>
+      <td mat-cell *matCellDef="let item">{{ item.queue }}</td>
+    </ng-container>
+    <ng-container matColumnDef="routingKey">
+      <th mat-header-cell *matHeaderCellDef>Routing key</th>
+      <td mat-cell *matCellDef="let item">{{ item.routingKey || '—' }}</td>
+    </ng-container>
+    <ng-container matColumnDef="acciones">
+      <th mat-header-cell *matHeaderCellDef>Acciones</th>
+      <td mat-cell *matCellDef="let item">
+        <button mat-icon-button color="warn" (click)="eliminar(item)" aria-label="Eliminar binding">
+          <mat-icon>link_off</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+    <tr mat-row *matRowDef="let row; columns: columnas;"></tr>
+  </table>
+  @if (datos().length === 0) {
+    <p class="vacio">No hay bindings registrados.</p>
+  }
+}

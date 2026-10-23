@@ -42,10 +42,10 @@ export function msalGuardConfigFactory(): MsalGuardConfiguration {
 export function msalInterceptorConfigFactory(): MsalInterceptorConfiguration {
   const protectedResourceMap = new Map<string, string[]>();
 
-  protectedResourceMap.set(
-  'https://0merzvv7vb.execute-api.us-east-1.amazonaws.com/api/*',
-  [environment.entra.apiScope]
-);
+  const apiBase = environment.apiUrl.replace(/\/+$/, '');
+
+  // Todas las llamadas a {apiUrl}/api/* llevan el Access Token (Bearer).
+  protectedResourceMap.set(`${apiBase}/api/*`, [environment.entra.apiScope]);
 
   return {
     interactionType: InteractionType.Redirect,

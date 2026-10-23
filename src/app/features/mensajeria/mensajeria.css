@@ -1,0 +1,7 @@
+:host { display: block; }
+.tabla { width: 100%; margin-top: 1rem; }
+.formulario { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: flex-start; padding-top: 1rem; }
+.formulario mat-form-field { min-width: 200px; flex: 1 1 200px; }
+.formulario .ancho { flex: 2 1 320px; }
+.vacio { text-align: center; color: rgba(0, 0, 0, 0.6); padding: 1.5rem 0; }
+.nota { color: rgba(0, 0, 0, 0.6); font-size: 0.85rem; margin: 0.25rem 0 0; }

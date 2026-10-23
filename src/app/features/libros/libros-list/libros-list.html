@@ -28,13 +28,13 @@
     <ng-container matColumnDef="autor">
       <th mat-header-cell *matHeaderCellDef>Autor</th>
       <td mat-cell *matCellDef="let item">
-        {{ item.autor ? (item.autor.nombre + ' ' + item.autor.apellido) : ('#' + item.autorId) }}
+        {{ item.autorNombre || (item.autor ? (item.autor.nombre + ' ' + item.autor.apellido) : ('#' + item.autorId)) }}
       </td>
     </ng-container>
     <ng-container matColumnDef="categoria">
       <th mat-header-cell *matHeaderCellDef>Categoría</th>
       <td mat-cell *matCellDef="let item">
-        {{ item.categoria ? item.categoria.nombre : ('#' + item.categoriaId) }}
+        {{ item.categoriaNombre || (item.categoria ? item.categoria.nombre : ('#' + item.categoriaId)) }}
       </td>
     </ng-container>
     <ng-container matColumnDef="disponibilidad">

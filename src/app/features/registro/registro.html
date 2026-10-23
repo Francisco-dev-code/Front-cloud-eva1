@@ -1,0 +1,31 @@
+<div class="pagina">
+  <mat-card class="tarjeta">
+    <mat-card-content>
+      <mat-icon class="logo">local_library</mat-icon>
+      <h1>Necesitas una cuenta para continuar</h1>
+      <p class="texto">
+        Puedes explorar el sitio libremente, pero para consultar o modificar datos
+        debes registrarte o iniciar sesión.
+      </p>
+
+      <div class="acciones">
+        <button mat-flat-button color="primary" type="button" (click)="registrarse()">
+          <mat-icon>person_add</mat-icon>
+          Crear cuenta
+        </button>
+
+        <button mat-stroked-button type="button" (click)="iniciarSesion()">
+          <mat-icon>login</mat-icon>
+          Ya tengo cuenta, iniciar sesión
+        </button>
+
+        <a mat-button routerLink="/inicio">Volver al inicio</a>
+      </div>
+
+      <p class="nota">
+        <mat-icon class="nota-icono">verified_user</mat-icon>
+        El ingreso se confirma con Microsoft Authenticator (verificación en dos pasos).
+      </p>
+    </mat-card-content>
+  </mat-card>
+</div>

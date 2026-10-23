@@ -1,9 +1,14 @@
 import { Routes } from '@angular/router';
 import { LayoutComponent } from './shared/layout/layout';
-import { authGuard } from './core/auth/auth.guard';
 
 export const routes: Routes = [
   {
+    path: 'registro',
+    loadComponent: () =>
+      import('./features/registro/registro').then((m) => m.RegistroComponent)
+  },
+  {
+    // Sitio público: la autenticación se exige al hacer solicitudes a la API (ver authRequiredInterceptor).
     path: '',
     component: LayoutComponent,
     children: [
@@ -35,8 +40,19 @@ export const routes: Routes = [
           import('./features/usuarios/usuarios-list/usuarios-list').then((m) => m.UsuariosListComponent)
       },
       {
+        path: 'mensajeria',
+        loadComponent: () =>
+          import('./features/mensajeria/mensajeria').then((m) => m.MensajeriaComponent)
+      },
+      {
+        path: 'notificaciones',
+        loadComponent: () =>
+          import('./features/notificaciones/notificaciones-list').then(
+            (m) => m.NotificacionesListComponent
+          )
+      },
+      {
         path: 'prestamos',
-        canActivate: [authGuard],
         loadComponent: () =>
           import('./features/prestamos/prestamos-list/prestamos-list').then(
             (m) => m.PrestamosListComponent
