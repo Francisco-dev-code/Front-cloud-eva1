@@ -16,13 +16,13 @@
     <ng-container matColumnDef="libro">
       <th mat-header-cell *matHeaderCellDef>Libro</th>
       <td mat-cell *matCellDef="let item">
-        {{ item.libro ? item.libro.titulo : ('#' + item.libroId) }}
+        {{ item.libroTitulo || (item.libro ? item.libro.titulo : ('#' + item.libroId)) }}
       </td>
     </ng-container>
     <ng-container matColumnDef="usuario">
       <th mat-header-cell *matHeaderCellDef>Usuario</th>
       <td mat-cell *matCellDef="let item">
-        {{ item.usuario ? (item.usuario.nombre + ' ' + item.usuario.apellido) : ('#' + item.usuarioId) }}
+        {{ item.usuarioNombre || (item.usuario ? (item.usuario.nombre + ' ' + item.usuario.apellido) : ('#' + item.usuarioId)) }}
       </td>
     </ng-container>
     <ng-container matColumnDef="fechaPrestamo">
@@ -43,7 +43,7 @@
       <th mat-header-cell *matHeaderCellDef>Acciones</th>
       <td mat-cell *matCellDef="let item">
         @if (item.estado !== 'DEVUELTO') {
-          <button mat-icon-button (click)="devolver(item)" matTooltip="Registrar devolución">
+          <button mat-icon-button (click)="devolver(item)" matTooltip="Registrar devolución" aria-label="Registrar devolución">
             <mat-icon>assignment_turned_in</mat-icon>
           </button>
         }

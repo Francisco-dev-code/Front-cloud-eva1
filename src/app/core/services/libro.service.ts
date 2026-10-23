@@ -15,7 +15,7 @@ export class LibroService extends ApiBaseService<Libro> {
 
   /** Busca libros por título, autor o ISBN (requiere soporte en el backend: GET /libros/buscar?q=) */
   buscar(q: string): Observable<Libro[]> {
-    return this.http.get<Libro[]>(`${environment.apiUrl}/${this.resource}/buscar`, {
+    return this.http.get<Libro[]>(`${this.url}/buscar`, {
       params: { q }
     });
   }

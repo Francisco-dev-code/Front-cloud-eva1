@@ -32,3 +32,9 @@
 .etiqueta {
   color: rgba(0, 0, 0, 0.6);
 }
+
+.acciones-visitante {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}

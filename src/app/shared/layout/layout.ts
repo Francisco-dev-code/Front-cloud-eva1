@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
@@ -35,6 +35,7 @@ interface ItemMenu {
 })
 export class LayoutComponent {
   protected readonly auth = inject(AuthService);
+  protected readonly router = inject(Router);
 
   protected readonly menu: ItemMenu[] = [
     { ruta: '/inicio', etiqueta: 'Inicio', icono: 'dashboard' },
@@ -42,7 +43,9 @@ export class LayoutComponent {
     { ruta: '/autores', etiqueta: 'Autores', icono: 'person' },
     { ruta: '/categorias', etiqueta: 'Categorías', icono: 'category' },
     { ruta: '/usuarios', etiqueta: 'Usuarios', icono: 'group' },
-    { ruta: '/prestamos', etiqueta: 'Préstamos', icono: 'assignment_return' }
+    { ruta: '/prestamos', etiqueta: 'Préstamos', icono: 'assignment_return' },
+    { ruta: '/notificaciones', etiqueta: 'Notificaciones', icono: 'notifications' },
+    { ruta: '/mensajeria', etiqueta: 'Mensajería', icono: 'hub' }
   ];
 
   private readonly esMovil = toSignal(

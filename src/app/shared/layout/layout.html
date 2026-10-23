@@ -44,10 +44,15 @@
             Cerrar sesión
           </button>
         } @else {
+          <a mat-button routerLink="/registro">
+            <mat-icon>person_add</mat-icon>
+            Registrarse
+          </a>
+
           <button
             mat-button
             type="button"
-            (click)="auth.login()"
+            (click)="auth.login(router.url)"
           >
             <mat-icon>login</mat-icon>
             Iniciar sesión

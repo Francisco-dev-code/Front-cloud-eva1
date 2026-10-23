@@ -13,6 +13,8 @@ export interface Prestamo {
   estado: EstadoPrestamo;
   observaciones?: string;
   // Campos opcionales "expandidos"
+  libroTitulo?: string;     // lo entrega el backend (PrestamoDTO)
+  usuarioNombre?: string;   // lo entrega el backend (PrestamoDTO)
   libro?: Libro;
   usuario?: Usuario;
 }

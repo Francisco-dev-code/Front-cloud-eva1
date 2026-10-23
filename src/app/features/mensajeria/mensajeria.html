@@ -1,0 +1,16 @@
+<h1>Mensajería (RabbitMQ)</h1>
+
+<mat-tab-group animationDuration="150ms">
+  <mat-tab label="Colas">
+    <ng-template matTabContent><app-colas-panel /></ng-template>
+  </mat-tab>
+  <mat-tab label="Exchanges">
+    <ng-template matTabContent><app-exchanges-panel /></ng-template>
+  </mat-tab>
+  <mat-tab label="Bindings">
+    <ng-template matTabContent><app-bindings-panel /></ng-template>
+  </mat-tab>
+  <mat-tab label="Publicar mensaje">
+    <ng-template matTabContent><app-publicar-panel /></ng-template>
+  </mat-tab>
+</mat-tab-group>

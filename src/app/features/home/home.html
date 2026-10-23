@@ -1,4 +1,22 @@
 <h1>Panel general</h1>
+
+@if (!autenticado()) {
+  <p class="subtitulo">
+    Bienvenido al Sistema de Gestión de Biblioteca. Para consultar o gestionar
+    libros, autores, usuarios y préstamos necesitas una cuenta.
+  </p>
+
+  <div class="acciones-visitante">
+    <a mat-flat-button color="primary" routerLink="/registro">
+      <mat-icon>person_add</mat-icon>
+      Registrarme
+    </a>
+    <button mat-stroked-button type="button" (click)="auth.login('/inicio')">
+      <mat-icon>login</mat-icon>
+      Iniciar sesión
+    </button>
+  </div>
+} @else {
 <p class="subtitulo">Resumen del estado actual de la biblioteca.</p>
 
 <div class="grilla">
@@ -14,3 +32,4 @@
     </a>
   }
 </div>
+}

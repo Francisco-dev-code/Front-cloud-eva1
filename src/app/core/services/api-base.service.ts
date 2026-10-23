@@ -22,7 +22,7 @@ export abstract class ApiBaseService<T> {
     protected baseUrl: string
   ) {}
 
-  private get url(): string {
+  protected get url(): string {
     const normalizedBaseUrl = this.baseUrl.replace(/\/+$/, '');
 
     return `${normalizedBaseUrl}/api/${this.resource}`;
